@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <style>
+    body { width:320px; background:#0a0c12; color:#e8eaf2;
+           font-family:sans-serif; padding:16px; margin:0; }
+    h2 { color:#00e5ff; font-size:14px; }
+    textarea { width:100%; background:#1e2235; color:#e8eaf2;
+               border:1px solid #2a3050; border-radius:6px;
+               padding:8px; font-size:13px; box-sizing:border-box; }
+    button { margin-top:8px; width:100%; background:#00e5ff;
+             color:#0a0c12; border:none; border-radius:6px;
+             padding:8px; cursor:pointer; font-weight:bold; }
+    #result { margin-top:12px; padding:10px; background:#1e2235;
+              border-radius:6px; border-left:3px solid #00e5ff;
+              font-size:13px; display:none; }
+  </style>
+</head>
+<body>
+  <h2>⚡ LEXIFLOW</h2>
+  <textarea id="input" rows="3" placeholder="Type text to translate..."></textarea>
+  <button onclick="translate()">Translate</button>
+  <div id="result"></div>
+  <script>
+    async function translate() {
+      const text = document.getElementById('input').value;
+      const res = document.getElementById('result');
+      res.style.display = 'block';
+      res.textContent = 'Translating...';
+      try {
+        const r = await fetch(`http://localhost:8000/translate?text=${encodeURIComponent(text)}&target=en`);
+        const d = await r.json();
+        res.textContent = d.translation;
+      } catch {
+        res.textContent = 'Error: Make sure API is running!';
+      }
+    }
+  </script>
+</body>
+</html>
