@@ -2,59 +2,866 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>LexiFlow</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LexiFlow — Understand Any Text, Instantly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    :root {
+      --ink: #0D0F1A;
+      --card: #151828;
+      --card2: #1C2038;
+      --teal: #00E5C3;
+      --teal-dim: rgba(0, 229, 195, 0.12);
+      --teal-glow: rgba(0, 229, 195, 0.25);
+      --white: #F0F4FF;
+      --slate: #8A93B2;
+      --border: rgba(138, 147, 178, 0.15);
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+ 
+    html { scroll-behavior: smooth; }
+ 
+    body {
+      background: var(--ink);
+      color: var(--white);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+ 
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(13, 15, 26, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+ 
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--teal);
+      letter-spacing: -0.02em;
+    }
+ 
+    .nav-logo span { color: var(--white); }
+ 
+    .nav-cta {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--teal);
+      padding: 9px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+ 
+    .nav-cta:hover { opacity: 0.85; }
+ 
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+ 
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(0,229,195,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+ 
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: var(--teal-dim);
+      border: 1px solid rgba(0,229,195,0.25);
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 32px;
+    }
+ 
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--teal);
+      animation: pulse 2s infinite;
+    }
+ 
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+ 
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      max-width: 780px;
+      margin-bottom: 24px;
+    }
+ 
+    .hero h1 em {
+      font-style: normal;
+      color: var(--teal);
+    }
+ 
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--slate);
+      max-width: 520px;
+      margin-bottom: 48px;
+      line-height: 1.7;
+    }
+ 
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 72px;
+    }
+ 
+    .btn-primary {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--ink);
+      background: var(--teal);
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 0 24px var(--teal-glow);
+    }
+ 
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 36px var(--teal-glow);
+    }
+ 
+    .btn-secondary {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--white);
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+ 
+    .btn-secondary:hover {
+      border-color: var(--teal);
+      background: var(--teal-dim);
+    }
+ 
+    /* ── DEMO WIDGET (Signature element) ── */
+    .demo-widget {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      max-width: 560px;
+      width: 100%;
+      text-align: left;
+      position: relative;
+    }
+ 
+    .demo-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+ 
+    .demo-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+ 
+    .demo-dot:nth-child(1) { background: #FF5F57; }
+    .demo-dot:nth-child(2) { background: #FEBC2E; }
+    .demo-dot:nth-child(3) { background: #28C840; }
+ 
+    .demo-url {
+      flex: 1;
+      font-size: 0.75rem;
+      color: var(--slate);
+      background: var(--card2);
+      border-radius: 4px;
+      padding: 4px 10px;
+      margin-left: 8px;
+      font-family: var(--font-body);
+    }
+ 
+    .demo-text {
+      font-size: 0.95rem;
+      color: var(--slate);
+      line-height: 1.8;
+      user-select: none;
+    }
+ 
+    .demo-text .highlight-wrap {
+      position: relative;
+      display: inline;
+    }
+ 
+    .demo-text .highlight {
+      background: rgba(0, 229, 195, 0.25);
+      border-radius: 2px;
+      color: var(--white);
+      animation: highlightPop 3.5s ease-in-out infinite;
+      padding: 1px 2px;
+    }
+ 
+    @keyframes highlightPop {
+      0%   { background: transparent; color: var(--slate); }
+      20%  { background: rgba(0,229,195,0.25); color: var(--white); }
+      75%  { background: rgba(0,229,195,0.25); color: var(--white); }
+      95%  { background: transparent; color: var(--slate); }
+      100% { background: transparent; color: var(--slate); }
+    }
+ 
+    .demo-popup {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ink);
+      border: 1px solid var(--teal);
+      border-radius: 10px;
+      padding: 12px 16px;
+      width: 220px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 16px var(--teal-glow);
+      animation: popupFloat 3.5s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 10;
+    }
+ 
+    .demo-popup::after {
+      content: '';
+      position: absolute;
+      top: 100%; left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--teal);
+    }
+ 
+    @keyframes popupFloat {
+      0%   { opacity: 0; transform: translateX(-50%) translateY(4px); }
+      20%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+      75%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+      95%  { opacity: 0; transform: translateX(-50%) translateY(-4px); }
+      100% { opacity: 0; }
+    }
+ 
+    .popup-lang {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--teal);
+      font-family: var(--font-display);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+ 
+    .popup-translation {
+      font-size: 0.9rem;
+      color: var(--white);
+      font-weight: 500;
+      line-height: 1.4;
+    }
+ 
+    .popup-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+ 
+    .popup-btn {
+      font-size: 0.7rem;
+      font-family: var(--font-display);
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: none;
+      cursor: default;
+    }
+ 
+    .popup-btn.speak {
+      background: var(--teal);
+      color: var(--ink);
+    }
+ 
+    .popup-btn.explain {
+      background: var(--card2);
+      color: var(--slate);
+    }
+ 
+    .demo-shortcut {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      font-size: 0.78rem;
+      color: var(--slate);
+    }
+ 
+    .kbd {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-family: monospace;
+      font-size: 0.75rem;
+      color: var(--white);
+    }
+ 
+    /* ── SECTIONS ── */
+    section {
+      padding: 100px 24px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+ 
+    .section-label {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 16px;
+    }
+ 
+    section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+ 
+    section p {
+      color: var(--slate);
+      font-size: 1.05rem;
+      max-width: 560px;
+      line-height: 1.75;
+    }
+ 
+    /* ── PROBLEM ── */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 48px;
+    }
+ 
+    .problem-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 24px;
+    }
+ 
+    .problem-icon {
+      font-size: 1.6rem;
+      margin-bottom: 14px;
+    }
+ 
+    .problem-card h3 {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+ 
+    .problem-card p {
+      font-size: 0.85rem;
+      color: var(--slate);
+      max-width: none;
+      line-height: 1.6;
+    }
+ 
+    /* ── HOW IT WORKS ── */
+    .how-flow {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      margin-top: 56px;
+      position: relative;
+    }
+ 
+    .how-flow::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: calc(50px + 16px);
+      right: calc(50px + 16px);
+      height: 1px;
+      background: linear-gradient(to right, var(--teal), transparent);
+      z-index: 0;
+    }
+ 
+    .flow-step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+ 
+    .flow-num {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      border: 1px solid var(--teal);
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--teal);
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px var(--teal-glow);
+    }
+ 
+    .flow-step h3 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+ 
+    .flow-step p {
+      font-size: 0.85rem;
+      max-width: 160px;
+      line-height: 1.55;
+    }
+ 
+    /* ── FEATURES ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 48px;
+    }
+ 
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      transition: border-color 0.2s;
+    }
+ 
+    .feature-card:hover { border-color: rgba(0,229,195,0.3); }
+ 
+    .feature-card.soon {
+      opacity: 0.6;
+    }
+ 
+    .feature-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-family: var(--font-display);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--teal-dim);
+      color: var(--teal);
+      border: 1px solid rgba(0,229,195,0.2);
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+ 
+    .feature-tag.coming {
+      background: rgba(138,147,178,0.1);
+      color: var(--slate);
+      border-color: var(--border);
+    }
+ 
+    .feature-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+ 
+    .feature-card p {
+      font-size: 0.875rem;
+      color: var(--slate);
+      max-width: none;
+      line-height: 1.65;
+    }
+ 
+    /* ── VISION ── */
+    .vision-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 64px 56px;
+      margin-top: 0;
+      position: relative;
+      overflow: hidden;
+    }
+ 
+    .vision-wrap::before {
+      content: '';
+      position: absolute;
+      bottom: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(0,229,195,0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+ 
+    .vision-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.35;
+      color: var(--white);
+      max-width: 640px;
+      margin-bottom: 24px;
+    }
+ 
+    .vision-quote em {
+      font-style: normal;
+      color: var(--teal);
+    }
+ 
+    .vision-wrap p {
+      font-size: 0.95rem;
+      max-width: 500px;
+    }
+ 
+    /* ── DOWNLOAD ── */
+    .download-wrap {
+      border-top: 1px solid var(--border);
+      padding-top: 80px;
+    }
+ 
+    .download-options {
+      display: flex;
+      gap: 16px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+ 
+    .download-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      flex: 1;
+      min-width: 200px;
+    }
+ 
+    .download-card h3 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+ 
+    .download-card p {
+      font-size: 0.82rem;
+      color: var(--slate);
+      max-width: none;
+    }
+ 
+    .download-status {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-family: var(--font-display);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-top: 12px;
+    }
+ 
+    .status-soon {
+      background: var(--teal-dim);
+      color: var(--teal);
+      border: 1px solid rgba(0,229,195,0.2);
+    }
+ 
+    .status-planned {
+      background: rgba(138,147,178,0.1);
+      color: var(--slate);
+      border: 1px solid var(--border);
+    }
+ 
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 36px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 100%;
+    }
+ 
+    .footer-logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--teal);
+      font-size: 1rem;
+    }
+ 
+    .footer-logo span { color: var(--white); }
+ 
+    footer p {
+      font-size: 0.82rem;
+      color: var(--slate);
+    }
+ 
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+ 
+    .footer-links a {
+      font-size: 0.82rem;
+      color: var(--slate);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+ 
+    .footer-links a:hover { color: var(--teal); }
+ 
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav { padding: 16px 20px; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .how-flow { flex-direction: column; gap: 32px; }
+      .how-flow::before { display: none; }
+      .vision-wrap { padding: 40px 28px; }
+      footer { flex-direction: column; gap: 20px; text-align: center; }
+    }
+ 
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
 </head>
 <body>
-
-<header class="hero">
-  <h1>Understand any text instantly — in your language</h1>
-  <p>Select text anywhere and hear it explained, translated, or read aloud using AI.</p>
-
-  <div class="buttons">
-    <a href="#" class="btn primary">Install Chrome Extension</a>
-    <a href="#" class="btn">Watch Demo</a>
+ 
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Lexi<span>Flow</span></div>
+  <a href="#" class="nav-cta">Install Extension</a>
+</nav>
+ 
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Open Source · Free · Browser Extension</div>
+  <h1>Understand any text,<br><em>in your language</em></h1>
+  <p class="hero-sub">Select any text on any webpage and hear it translated, read aloud, or explained — without leaving the page.</p>
+  <div class="hero-buttons">
+    <a href="#" class="btn-primary">Add to Chrome — Free</a>
+    <a href="https://github.com/cloner-Ng/lexiflow" class="btn-secondary" target="_blank">View on GitHub</a>
   </div>
-</header>
-
-<section>
-  <h2>Problem</h2>
-  <p>Reading slows down understanding. Copying text, switching apps, and translating breaks focus and wastes time.</p>
+ 
+  <!-- Animated demo widget -->
+  <div class="demo-widget">
+    <div class="demo-bar">
+      <div class="demo-dot"></div>
+      <div class="demo-dot"></div>
+      <div class="demo-dot"></div>
+      <div class="demo-url">docs.example.com/legal-terms</div>
+    </div>
+    <p class="demo-text">
+      The parties agree to resolve any dispute through binding arbitration.
+      <span class="highlight-wrap">
+        <span class="highlight">The jurisdiction shall be determined by the governing law clause.</span>
+        <div class="demo-popup">
+          <div class="popup-lang">🇰🇭 Khmer Translation</div>
+          <div class="popup-translation">យុត្តាធិការត្រូវបានកំណត់ដោយច្បាប់គ្រប់គ្រង</div>
+          <div class="popup-actions">
+            <button class="popup-btn speak">▶ Speak</button>
+            <button class="popup-btn explain">Explain</button>
+          </div>
+        </div>
+      </span>
+      All fees incurred during the process remain the responsibility of the initiating party.
+    </p>
+    <div class="demo-shortcut">
+      <span class="kbd">Alt</span> + <span class="kbd">L</span>
+      <span>to activate · Works on any page</span>
+    </div>
+  </div>
 </section>
-
+ 
+<!-- PROBLEM -->
 <section>
-  <h2>Solution</h2>
-  <pre>Select text → Press shortcut → Hear instantly</pre>
-  <p>LexiFlow removes friction between reading and understanding.</p>
+  <div class="section-label">The Problem</div>
+  <h2>Reading breaks when<br>language gets in the way</h2>
+  <p>Every time you hit an unfamiliar phrase, you lose the thread — switching tabs, copy-pasting, and losing your place in the text.</p>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-icon">🔄</div>
+      <h3>Tab switching</h3>
+      <p>Jumping between the page and a translator destroys reading flow and context.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">⏱️</div>
+      <h3>Time wasted</h3>
+      <p>Copy, open new tab, paste, read, go back. Repeated dozens of times per article.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">🧠</div>
+      <h3>Context lost</h3>
+      <p>By the time you return, you've forgotten what you were reading and why it mattered.</p>
+    </div>
+  </div>
 </section>
-
+ 
+<!-- HOW IT WORKS -->
 <section>
-  <h2>Features</h2>
-  <ul>
-    <li>Instant text-to-speech</li>
-    <li>Multi-language support</li>
-    <li>AI explanation mode (coming soon)</li>
-    <li>Fast keyboard shortcut workflow</li>
-  </ul>
+  <div class="section-label">How It Works</div>
+  <h2>Three steps.<br>No friction.</h2>
+  <p>LexiFlow lives in your browser and activates exactly when you need it — nothing more.</p>
+  <div class="how-flow">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <h3>Select text</h3>
+      <p>Highlight any word, sentence, or paragraph on any webpage.</p>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <h3>Press shortcut</h3>
+      <p>Hit <kbd style="font-family:monospace;color:var(--teal)">Alt+L</kbd> to trigger LexiFlow instantly.</p>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <h3>Understand instantly</h3>
+      <p>Translation, pronunciation, and explanation appear inline — no tab switch.</p>
+    </div>
+  </div>
 </section>
-
+ 
+<!-- FEATURES -->
 <section>
-  <h2>Vision</h2>
-  <p>
-    A universal reading layer for the internet — helping people understand any content instantly,
-    regardless of language or complexity.
-  </p>
+  <div class="section-label">Features</div>
+  <h2>Built for readers<br>who think in multiple languages</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-tag">Live</div>
+      <h3>Instant text-to-speech</h3>
+      <p>Hear any selected text read aloud in its native language, with natural pronunciation.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-tag">Live</div>
+      <h3>Multi-language translation</h3>
+      <p>Khmer, English, and beyond — powered by the MyMemory API with no account needed.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-tag">Live</div>
+      <h3>Keyboard-first workflow</h3>
+      <p>Designed around a single shortcut. No pop-ups, no menus, no waiting.</p>
+    </div>
+    <div class="feature-card feature-card soon">
+      <div class="feature-tag coming">Coming Soon</div>
+      <h3>AI explanation mode</h3>
+      <p>Ask what a clause means, not just what it says. Contextual understanding powered by AI.</p>
+    </div>
+  </div>
 </section>
-
+ 
+<!-- VISION -->
 <section>
-  <h2>Download</h2>
-  <p>Chrome Extension (Available soon)</p>
-  <p>Windows / Linux / Android (Planned)</p>
+  <div class="section-label">Vision</div>
+  <div class="vision-wrap">
+    <div class="vision-quote">
+      A <em>universal reading layer</em> for the internet — so language is never a barrier to understanding.
+    </div>
+    <p>LexiFlow starts with Khmer and English, two languages that sit at the center of a widening knowledge gap. The goal is broader: every reader, in every language, with instant comprehension as a default.</p>
+  </div>
 </section>
-
+ 
+<!-- DOWNLOAD -->
+<section class="download-wrap">
+  <div class="section-label">Download</div>
+  <h2>Get LexiFlow</h2>
+  <p>Start with Chrome. More platforms are on the way.</p>
+  <div class="download-options">
+    <div class="download-card">
+      <h3>🌐 Chrome Extension</h3>
+      <p>Works on any Chromium-based browser — Chrome, Edge, Brave.</p>
+      <div class="download-status status-soon">Available Soon</div>
+    </div>
+    <div class="download-card">
+      <h3>🪟 Windows / Linux</h3>
+      <p>Desktop builds for offline and extended use cases.</p>
+      <div class="download-status status-planned">Planned</div>
+    </div>
+    <div class="download-card">
+      <h3>📱 Android</h3>
+      <p>Mobile reading support across any Android browser.</p>
+      <div class="download-status status-planned">Planned</div>
+    </div>
+  </div>
+</section>
+ 
+<!-- FOOTER -->
 <footer>
-  <p>Built by LexiFlow · Open Source Project</p>
+  <div class="footer-logo">Lexi<span>Flow</span></div>
+  <p>Open source · Built by LexiFlow</p>
+  <div class="footer-links">
+    <a href="https://github.com/cloner-Ng/lexiflow" target="_blank">GitHub</a>
+    <a href="#">Docs</a>
+    <a href="#">Contact</a>
+  </div>
 </footer>
-
+ 
 </body>
 </html>
+ 
