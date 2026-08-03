@@ -1,159 +1,238 @@
-# Turborepo starter
+# ⚡ LexiFlow 🇰🇭
 
-This Turborepo starter is maintained by the Turborepo core team.
+**A browser extension built for people who understand better by listening than reading.**
 
-## Using this example
+![LexiFlow](https://img.shields.io/badge/version-2.0.0-cyan) ![License](https://img.shields.io/badge/license-MIT-green) ![Platform](https://img.shields.io/badge/platform-Chromium-blue)
 
-Run the following command:
+---
 
-```sh
-npx create-turbo@latest
+## 📖 Table of Contents
+
+- [Why I Built This](#why-i-built-this)
+- [What It Does](#what-it-does)
+- [Screenshots](#screenshots)
+- [System Requirements](#system-requirements)
+- [Installation Guide](#installation-guide)
+  - [Step 1: Get The Code](#step-1-get-the-code)
+  - [Step 2: Load Into Your Browser](#step-2-load-into-your-browser)
+  - [Step 3: Test It](#step-3-test-it)
+- [How To Use It](#how-to-use-it)
+- [Supported Languages](#supported-languages)
+- [Supported Browsers](#supported-browsers)
+- [Troubleshooting](#troubleshooting)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## Why I Built This
+
+I created LexiFlow while studying for the Anthropic 101 course. I noticed I absorb information much better through **listening** than reading — but most study material online is text-only. Copy-pasting into translator apps every time broke my focus and slowed me down.
+
+So I built LexiFlow: select any text on any webpage, and it instantly reads it aloud in the correct language. No app switching, no copy-paste. Just select and listen.
+
+I'm a native Khmer speaker based in Cambodia, and most language tools handle Khmer poorly or not at all — so proper Khmer support was a priority from day one, not an afterthought.
+
+---
+
+## What It Does
+
+- ✅ Select any text on any webpage
+- ✅ Auto-detects the language of the selected text
+- ✅ One click to hear it read aloud, naturally
+- ✅ Manually override the detected language if it guesses wrong
+- ✅ Copy the selected text with one click
+- ✅ Works entirely client-side — no account, no login, no backend server required
+- ✅ Dark cyberpunk-themed UI
+
+---
+
+## Screenshots
+
+*(Add screenshots here — see [Contributing](#contributing) if you'd like to help with this!)*---
+
+## System Requirements
+
+- A Chromium-based browser (Brave, Chrome, Edge, Opera, Vivaldi)
+- An internet connection (for the text-to-speech audio and language detection to work)
+- No installation of Node, Python, or any backend required to USE the extension
+
+---
+
+## Installation Guide
+
+### Step 1: Get The Code
+
+**Option A — Clone with Git:**
+```bash
+git clone https://github.com/cloner-Ng/lexiflow.git
+cd lexiflow
 ```
 
-## What's inside?
+**Option B — Download ZIP:**
+1. Go to https://github.com/cloner-Ng/lexiflow
+2. Click the green **Code** button → **Download ZIP**
+3. Extract the ZIP file anywhere on your computer
 
-This Turborepo includes the following packages/apps:
+---
 
-### Apps and Packages
+### Step 2: Load Into Your Browser
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+**For Brave:**
+1. Open Brave
+2. Go to the address bar and type: `brave://extensions`
+3. Press Enter
+4. Turn ON **Developer mode** (toggle in the top-right corner)
+5. Click **Load unpacked**
+6. Navigate to the folder where you cloned/extracted LexiFlow
+7. Select the `apps/extension` folder specifically (not the root `lexiflow` folder)
+8. Click **Select**
+9. LexiFlow should now appear in your extensions list
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+**For Google Chrome:**
+1. Open Chrome
+2. Go to: `chrome://extensions`
+3. Turn ON **Developer mode** (top-right toggle)
+4. Click **Load unpacked**
+5. Select the `apps/extension` folder
+6. Done
 
-### Utilities
+**For Microsoft Edge:**
+1. Open Edge
+2. Go to: `edge://extensions`
+3. Turn ON **Developer mode** (left sidebar toggle)
+4. Click **Load unpacked**
+5. Select the `apps/extension` folder
+6. Done
 
-This Turborepo has some additional tools already setup for you:
+**For Opera / Vivaldi:**
+Same process — go to the browser's extensions page, enable Developer mode, and Load unpacked pointing to `apps/extension`.
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+---
 
-### Build
+### Step 3: Test It
 
-To build all apps and packages, run the following command:
+1. Go to any website, for example `https://en.wikipedia.org`
+2. Highlight/select a sentence with your mouse
+3. A small **🔊 Listen** button should appear right above your selection
+4. Click it
+5. A bubble will open showing the detected language and a **Read Aloud** button
+6. Click **Read Aloud** — it should speak the selected text
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+If it doesn't speak, see [Troubleshooting](#troubleshooting) below.
 
-```sh
-cd my-turborepo
-turbo build
-```
+---
 
-Without global `turbo`, use your package manager:
+## How To Use It
 
-```sh
-cd my-turborepo
-npx turbo build
-pnpm dlx turbo build
-pnpm exec turbo build
-```
+| Action | What Happens |
+|---|---|
+| Select text with your mouse | A small floating button appears |
+| Click the floating button | A bubble opens with the text and detected language |
+| Click "Read Aloud" | The text is spoken out loud |
+| Click "Read Aloud" again while playing | Stops the audio |
+| Change the language dropdown | Manually pick a different language if auto-detect was wrong, then click Read Aloud again |
+| Click "Copy" | Copies the selected text to your clipboard |
+| Click outside the bubble | Closes it |
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+---
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+## Supported Languages
 
-```sh
-turbo build --filter=docs
-```
+Auto-detection currently supports:
 
-Without global `turbo`:
+| Language | Code | Script Detected |
+|---|---|---|
+| English | en | Default fallback |
+| Khmer 🇰🇭 | km | Khmer Unicode block |
+| Chinese | zh | CJK Unicode block |
+| Japanese | ja | Hiragana/Katakana block |
+| Korean | ko | Hangul block |
+| Thai | th | Thai Unicode block |
+| Arabic | ar | Arabic Unicode block |
 
-```sh
-npx turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+You can also manually select: French, Vietnamese, Spanish, German from the dropdown even if not auto-detected.
 
-### Develop
+---
 
-To develop all apps and packages, run the following command:
+## Supported Browsers
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+| Browser | Status |
+|---|---|
+| Brave | ✅ Fully working |
+| Google Chrome | ✅ Fully working |
+| Microsoft Edge | ✅ Fully working |
+| Opera / Vivaldi | ✅ Should work (Chromium-based) |
+| Firefox | ❌ Not yet supported (different extension format) |
+| Safari | ❌ Not supported |
 
-```sh
-cd my-turborepo
-turbo dev
-```
+---
 
-Without global `turbo`, use your package manager:
+## Troubleshooting
 
-```sh
-cd my-turborepo
-npx turbo dev
-pnpm exec turbo dev
-pnpm exec turbo dev
-```
+**The floating button doesn't appear when I select text**
+- Make sure you're on a regular webpage (`https://...`), not a browser settings page or PDF viewer — extensions can't run on those by design.
+- Try reloading the extension: go to your browser's extensions page and click the reload icon on LexiFlow.
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+**"Translation failed" or nothing happens after clicking the button**
+- Check your internet connection — LexiFlow needs it to detect/speak text.
+- The selected text may be too long — try selecting a shorter sentence.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+**No sound plays when I click "Read Aloud"**
+- This uses Google Translate's audio endpoint, so check your device volume isn't muted.
+- Some browsers block autoplay audio on first interaction — click somewhere on the page first, then try again.
 
-```sh
-turbo dev --filter=web
-```
+**It doesn't work on `chrome://` or `brave://` pages**
+- This is expected browser behavior — extensions cannot run on internal browser pages for security reasons.
 
-Without global `turbo`:
+---
 
-```sh
-npx turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+## Tech Stack
 
-### Remote Caching
+- **Manifest V3** browser extension (no build tools required)
+- **Vanilla JavaScript** — no frameworks, no dependencies
+- **Google Translate TTS audio endpoint** for natural-sounding speech
+- **Unicode range detection** for automatic language identification (no external API needed for detection)
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+---
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+## Project Structure
+lexiflow/
+├── apps/
+│ └── extension/
+│ ├── manifest.json ← extension configuration
+│ ├── content.js ← core logic (detection, UI, speech)
+│ └── content.css ← styling for the floating bubble
+├── README.md
+├── CONTRIBUTING.md
+└── LICENSE
+---
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+## Roadmap
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+- [ ] Firefox support
+- [ ] Keyboard shortcut to trigger listen without clicking
+- [ ] Remember your preferred voice per language
+- [ ] Offline mode (no internet required)
+- [ ] Mobile browser support (Kiwi Browser on Android)
+- [ ] Adjustable speech speed
+- [ ] History of listened selections
 
-```sh
-cd my-turborepo
-turbo login
-```
+---
 
-Without global `turbo`, use your package manager:
+## Contributing
 
-```sh
-cd my-turborepo
-npx turbo login
-pnpm exec turbo login
-pnpm exec turbo login
-```
+Contributions are very welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md) for how to get started. All skill levels welcome, especially if you care about accessibility, language learning tools, or Khmer language support.
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+---
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+## License
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+MIT — free to use, modify, and share. See [LICENSE](./LICENSE).
 
-```sh
-turbo link
-```
+---
 
-Without global `turbo`:
-
-```sh
-npx turbo link
-pnpm exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+Built with ❤️ in Cambodia by [cloner-Ng](https://github.com/cloner-Ng)
